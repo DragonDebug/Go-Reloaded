@@ -35,15 +35,38 @@ func main() {
 	// Converting the Data to a readable form and spliting it
 	content := string(data)
 	contentSli := strings.Split(content, " ")
+	newContent := []string{}
 
 	for i := 0; i < len(contentSli); i++ {
 		if contentSli[i] == "(cap)" {
-			fmt.Println(strings.ToUpper(contentSli[i-1]))
-			_, err := file.WriteString(strings.ToUpper(contentSli[i-1]))
-			if err != nil {
-				fmt.Printf("Error writing to file %s: %s\n", output, err)
-				return
-			}
+			newContent = append(newContent, strings.Title((contentSli[i-1])))
+		} else if contentSli[i] == "(up)" {
+			newContent = append(newContent, strings.ToUpper(contentSli[i-1]))
+		} else if contentSli[i] == "(low)" {
+			newContent = append(newContent, strings.ToLower(contentSli[i-1]))
+		} else if contentSli[i] == "(bin)" {
+			//newContent = append(newContent, strconv.ParseInt((contentSli[i-1]), 2))
+			return
+		} else if contentSli[i] == "(hex)" {
+			return
 		}
 	}
+	newContentComb := strings.Join(newContent, " ")
+	// Writing the new content into the output file
+	_, err = file.WriteString(newContentComb)
+	if err != nil {
+		fmt.Printf("Error writing to file %s: %s\n", output, err)
+		return
+	}
+
+	// for i := 0; i < len(contentSli); i++ {
+	// 	if contentSli[i] == "(cap)" {
+	// 		fmt.Println(strings.ToUpper(contentSli[i-1]))
+	// 		_, err := file.WriteString(strings.ToUpper(contentSli[i-1]))
+	// 		if err != nil {
+	// 			fmt.Printf("Error writing to file %s: %s\n", output, err)
+	// 			return
+	// 		}
+	// 	}
+	// }
 }
