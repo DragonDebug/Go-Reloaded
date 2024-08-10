@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func turnBin(contentSli string) string {
+func TurnBin(contentSli string) string {
 	binValueInt, err := strconv.ParseInt(contentSli, 2, 64)
 	if err != nil {
 		log.Fatal("Error Converting to binary")
@@ -14,6 +14,6 @@ func turnBin(contentSli string) string {
 	return strconv.Itoa(int(binValueInt))
 }
 
-func thisisnot() {
+func Thisisnot() {
 	fmt.Print("this is a test")
 }
