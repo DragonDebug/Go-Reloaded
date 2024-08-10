@@ -11,9 +11,5 @@ func TurnBin(contentSli string) string {
 	if err != nil {
 		log.Fatal("Error Converting to binary")
 	}
-	return strconv.Itoa(int(binValueInt))
-}
-
-func Thisisnot() {
-	fmt.Print("this is a test")
+	return fmt.Sprint(int(binValueInt))
 }

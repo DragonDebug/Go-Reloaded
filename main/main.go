@@ -1,7 +1,6 @@
 package main
 
 import (
-	"GoReloaded/functions"
 	"fmt"
 	"os"
 	"strings"
@@ -47,7 +46,6 @@ func main() {
 			newContent = append(newContent, strings.ToLower(contentSli[i-1]))
 		} else if contentSli[i] == "(bin)" {
 			// binValue := turnBin(contentSli[i-1])
-			functions.Thisisnot()
 			return
 		} else if contentSli[i] == "(hex)" {
 			return
