@@ -45,7 +45,8 @@ func main() {
 		} else if contentSli[i] == "(low)" {
 			newContent = append(newContent, strings.ToLower(contentSli[i-1]))
 		} else if contentSli[i] == "(bin)" {
-			//newContent = append(newContent, strconv.ParseInt((contentSli[i-1]), 2))
+			// binValue := turnBin(contentSli[i-1])
+			functions.thisisnot()
 			return
 		} else if contentSli[i] == "(hex)" {
 			return
