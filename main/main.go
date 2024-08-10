@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	fn "goreloaded"
 	"os"
 	"strings"
+	re "regexp"
 )
 
 func main() {
@@ -37,6 +39,10 @@ func main() {
 	contentSli := strings.Split(content, " ")
 	newContent := []string{}
 
+	re.MustCompile("/(cap)/gi")
+
+
+	var decimalValue string
 	for i := 0; i < len(contentSli); i++ {
 		if contentSli[i] == "(cap)" {
 			newContent = append(newContent, strings.Title((contentSli[i-1])))
@@ -45,13 +51,16 @@ func main() {
 		} else if contentSli[i] == "(low)" {
 			newContent = append(newContent, strings.ToLower(contentSli[i-1]))
 		} else if contentSli[i] == "(bin)" {
-			// binValue := turnBin(contentSli[i-1])
-			return
+			decimalValue = fn.TurnBinToDec(contentSli[i-1])
+			newContent = append(newContent, decimalValue)
 		} else if contentSli[i] == "(hex)" {
-			return
+			decimalValue = fn.TurnHexToDec(contentSli[i-1])
+			newContent = append(newContent, decimalValue)
 		}
 	}
+
 	newContentComb := strings.Join(newContent, " ")
+
 	// Writing the new content into the output file
 	_, err = file.WriteString(newContentComb)
 	if err != nil {
