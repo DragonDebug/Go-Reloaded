@@ -4,8 +4,8 @@ import (
 	"fmt"
 	fn "goreloaded"
 	"os"
-	"strings"
 	re "regexp"
+	"strings"
 )
 
 func main() {
@@ -39,8 +39,10 @@ func main() {
 	contentSli := strings.Split(content, " ")
 	newContent := []string{}
 
-	re.MustCompile("/(cap)/gi")
-
+	pattern := `(?i)\(\s*cap\s*\)|\(\s*cap\s*,\s*\d+\s*\) | \(\s*up\s*\)|\(\s*up\s*,\s*\d+\s*\) | \(\s*low\s*\)|\(\s*low\s*,\s*\d+\s*\) | \(\s*bin\s*\)|\(\s*bin\s*,\s*\d+\s*\) | \(\s*hex\s*\)|\(\s*hex\s*,\s*\d+\s*\)`
+	re := re.MustCompile(pattern)
+	parts := re.Split(content, -1)
+	fmt.Println(parts)
 
 	var decimalValue string
 	for i := 0; i < len(contentSli); i++ {
