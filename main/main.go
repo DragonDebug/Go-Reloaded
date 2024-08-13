@@ -39,7 +39,7 @@ func main() {
 	contentSli := strings.Split(content, " ")
 	newContent := []string{}
 
-	pattern := `(?i)\(\s*(cap|up|low|bin|hex)\s*\) | \(\s*(cap|up|low|bin|hex)\s*,\s*\d+\s*\)`
+	pattern := `(?i)\(\s*(?:cap|up|low|bin|hex)\s*(?:,\s*(\d+)\s*)?\)`
 	re := re.MustCompile(pattern)
 	parts := re.Split(content, -1)
 	fmt.Println(parts)
