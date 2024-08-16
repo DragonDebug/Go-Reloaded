@@ -39,10 +39,31 @@ func main() {
 	contentSli := strings.Split(content, " ")
 	newContent := []string{}
 
+	// Regexp command for finding the required patterns
 	pattern := `(?i)\(\s*(?:cap|up|low|bin|hex)\s*(?:,\s*(\d+)\s*)?\)`
 	re := re.MustCompile(pattern)
+
+	// Find all matches
+	matches := re.FindAllStringSubmatch(content, -1)
+
+	// Iterate through the matches and print the captured groups
+	for _, match := range matches {
+		if len(match) > 1 {
+			// match[0] is the entire match, match[1] is the first captured group (the number)
+			fmt.Printf("Captured: %s\n", match[1])
+		}
+	}
+
 	parts := re.Split(content, -1)
+	for _, part := range parts {
+		if len(part) > 1 {
+			words := strings.Fields(part)
+			fmt.Print(words)
+		}
+	}
 	fmt.Println(parts)
+
+	//
 
 	var decimalValue string
 	for i := 0; i < len(contentSli); i++ {
