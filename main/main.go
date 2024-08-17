@@ -45,23 +45,39 @@ func main() {
 
 	// Find all matches
 	matches := re.FindAllStringSubmatch(content, -1)
+	
+	// parts := re.Split(content, -1)
+	parts:= re.ReplaceAllString(content, func(Match string) string{
 
-	// Iterate through the matches and print the captured groups
+
+
+	})
+
+
+
+	// Iterate through the matches and parts of the content
 	for _, match := range matches {
-		if len(match) > 1 {
-			// match[0] is the entire match, match[1] is the first captured group (the number)
-			fmt.Printf("Captured: %s\n", match[1])
+		for _, part := range parts {
+			if len(part)>1 && len(match)>1 {
+				if fn.IsCap(match[0]) {
+					newContent = append(newContent, strings.Title((contentSli[i-1])))
+				} else if fn.IsUp(match[0]) {
+					newContent = append(newContent, strings.ToUpper(contentSli[i-1]))
+				} else if fn.IsLow(match[0]) {
+					newContent = append(newContent, strings.ToLower(contentSli[i-1]))
+				} else if fn.IsBin(match[0]) {
+					decimalValue = fn.TurnBinToDec(contentSli[i-1])
+					newContent = append(newContent, decimalValue)
+				} else if fn.IsHex(match[0]) {
+					decimalValue = fn.TurnHexToDec(contentSli[i-1])
+					newContent = append(newContent, decimalValue)
+				}
+			}
 		}
 	}
 
-	parts := re.Split(content, -1)
-	for _, part := range parts {
-		if len(part) > 1 {
-			words := strings.Fields(part)
-			fmt.Print(words)
-		}
-	}
-	fmt.Println(parts)
+	words := strings.Fields(part)
+	fmt.Print(words)
 
 	//
 
