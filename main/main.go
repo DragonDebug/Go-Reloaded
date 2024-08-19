@@ -36,67 +36,40 @@ func main() {
 
 	// Converting the Data to a readable form and spliting it
 	content := string(data)
-	contentSli := strings.Split(content, " ")
 	newContent := []string{}
 
 	// Regexp command for finding the required patterns
-	pattern := `(?i)\(\s*(?:cap|up|low|bin|hex)\s*(?:,\s*(\d+)\s*)?\)`
+	pattern := `(?i)((?:\w+\s*)+)(?:[.,;:!?])*\s*\(\s*(?:cap|up|low|bin|hex)\s*(?:,\s*(\d+)\s*)?\)`
 	re := re.MustCompile(pattern)
 
 	// Find all matches
 	matches := re.FindAllStringSubmatch(content, -1)
-	
-	// parts := re.Split(content, -1)
-	parts:= re.ReplaceAllString(content, func(Match string) string{
 
-
-
-	})
-
-
-
+	// var decimalValue string
 	// Iterate through the matches and parts of the content
 	for _, match := range matches {
-		for _, part := range parts {
-			if len(part)>1 && len(match)>1 {
-				if fn.IsCap(match[0]) {
-					newContent = append(newContent, strings.Title((contentSli[i-1])))
-				} else if fn.IsUp(match[0]) {
-					newContent = append(newContent, strings.ToUpper(contentSli[i-1]))
-				} else if fn.IsLow(match[0]) {
-					newContent = append(newContent, strings.ToLower(contentSli[i-1]))
-				} else if fn.IsBin(match[0]) {
-					decimalValue = fn.TurnBinToDec(contentSli[i-1])
-					newContent = append(newContent, decimalValue)
-				} else if fn.IsHex(match[0]) {
-					decimalValue = fn.TurnHexToDec(contentSli[i-1])
-					newContent = append(newContent, decimalValue)
-				}
+		if len(match) > 1 {
+			if fn.IsCap(match[0]) {
+				slice := fn.TurnCapital(match[1], match[2])
+				newContent = append(newContent, slice)
+				// } else if fn.IsUp(match[0]) {
+				// 	newContent = append(newContent, strings.ToUpper(contentSli[i-1]))
+				// } else if fn.IsLow(match[0]) {
+				// 	newContent = append(newContent, strings.ToLower(contentSli[i-1]))
+				// } else if fn.IsBin(match[0]) {
+				// 	decimalValue = fn.TurnBinToDec(contentSli[i-1])
+				// 	newContent = append(newContent, decimalValue)
+				// } else if fn.IsHex(match[0]) {
+				// 	decimalValue = fn.TurnHexToDec(contentSli[i-1])
+				// 	newContent = append(newContent, decimalValue)
 			}
 		}
 	}
 
-	words := strings.Fields(part)
-	fmt.Print(words)
+	// words := strings.Fields(part)
+	// fmt.Print(words)
 
 	//
-
-	var decimalValue string
-	for i := 0; i < len(contentSli); i++ {
-		if contentSli[i] == "(cap)" {
-			newContent = append(newContent, strings.Title((contentSli[i-1])))
-		} else if contentSli[i] == "(up)" {
-			newContent = append(newContent, strings.ToUpper(contentSli[i-1]))
-		} else if contentSli[i] == "(low)" {
-			newContent = append(newContent, strings.ToLower(contentSli[i-1]))
-		} else if contentSli[i] == "(bin)" {
-			decimalValue = fn.TurnBinToDec(contentSli[i-1])
-			newContent = append(newContent, decimalValue)
-		} else if contentSli[i] == "(hex)" {
-			decimalValue = fn.TurnHexToDec(contentSli[i-1])
-			newContent = append(newContent, decimalValue)
-		}
-	}
 
 	newContentComb := strings.Join(newContent, " ")
 

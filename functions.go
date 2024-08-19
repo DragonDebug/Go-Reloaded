@@ -40,6 +40,7 @@ func TurnCapital(part string, strNum string) string {
 	for i := number; i > 0; i++ {
 
 	}
+	return part
 }
 
 func IsUp(match string) bool {
