@@ -25,14 +25,15 @@ func TurnHexToDec(contentSli string) string {
 }
 
 func TurnCapital(part string, strNum string) string {
-	if len(strNum) == 0 {
-		return strings.Title(part)
+	words := strings.Fields(part)
+	if strNum == "" {
+		lastWord := words[len(words)-1]
+		return strings.Title(lastWord)
 	}
 	number, err := strconv.Atoi(strNum)
 	if err != nil {
 		log.Fatal("Error Converting String to int")
 	}
-	words := strings.Fields(part)
 	if len(words) <= number {
 		return strings.Title(part)
 	}
@@ -40,6 +41,7 @@ func TurnCapital(part string, strNum string) string {
 	for i := number; i > 0; i++ {
 
 	}
+	part = strings.Join(words, " ")
 	return part
 }
 
