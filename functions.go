@@ -8,6 +8,15 @@ import (
 	"strings"
 )
 
+// Converts the string to an int
+func StringToInt(s string) int {
+	value, err := strconv.Atoi(s)
+	if err != nil {
+		return 1 // return 1 as a defaul value if there is an error
+	}
+	return value
+}
+
 func TurnBinToDec(contentSli string) string {
 	decValueInt, err := strconv.ParseInt(contentSli, 2, 64)
 	if err != nil {
@@ -24,25 +33,28 @@ func TurnHexToDec(contentSli string) string {
 	return fmt.Sprint(int(decValueInt))
 }
 
-func TurnCapital(part string, strNum string) string {
-	words := strings.Fields(part)
-	if strNum == "" {
-		lastWord := words[len(words)-1]
-		return strings.Title(lastWord)
+func TurnCapital(word string, count int) string {
+	words := strings.Fields(word)
+	for i := len(words) - 1; i >= 0 && i >= len(words)-count; i-- {
+		words[i] = strings.Title(strings.ToLower(words[i]))
 	}
-	number, err := strconv.Atoi(strNum)
-	if err != nil {
-		log.Fatal("Error Converting String to int")
-	}
-	if len(words) <= number {
-		return strings.Title(part)
-	}
+	return strings.Join(words, " ")
+}
 
-	for i := number; i > 0; i++ {
-
+func TurnUpper(word string, count int) string {
+	words := strings.Fields(word)
+	for i := len(words) - 1; i >= 0 && i >= len(words)-count; i-- {
+		words[i] = strings.ToUpper(words[i])
 	}
-	part = strings.Join(words, " ")
-	return part
+	return strings.Join(words, " ")
+}
+
+func TurnLower(word string, count int) string {
+	words := strings.Fields(word)
+	for i := len(words) - 1; i >= 0 && i >= len(words)-count; i-- {
+		words[i] = strings.ToLower(words[i])
+	}
+	return strings.Join(words, " ")
 }
 
 func IsUp(match string) bool {
