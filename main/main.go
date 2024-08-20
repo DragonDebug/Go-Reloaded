@@ -69,8 +69,6 @@ func main() {
 	// words := strings.Fields(part)
 	// fmt.Print(words)
 
-	//
-
 	newContentComb := strings.Join(newContent, " ")
 
 	// Writing the new content into the output file
