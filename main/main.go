@@ -56,16 +56,16 @@ func main() {
 
 		// Replace based on the command
 		var replacement string
-		switch command {
-		case "cap":
+
+		if fn.IsCap(command) {
 			replacement = fn.TurnCapital(sentence, count)
-		case "up":
+		} else if fn.IsUp(command) {
 			replacement = fn.TurnUpper(sentence, count)
-		case "low":
+		} else if fn.IsLow(command) {
 			replacement = fn.TurnLower(sentence, count)
-		case "bin":
+		} else if fn.IsBin(command) {
 			replacement = fn.TurnBinToDec(sentence)
-		case "hex":
+		} else if fn.IsHex(command) {
 			replacement = fn.TurnHexToDec(sentence)
 		}
 

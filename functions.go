@@ -33,51 +33,69 @@ func TurnHexToDec(contentSli string) string {
 	return fmt.Sprint(int(decValueInt))
 }
 
-func TurnCapital(word string, count int) string {
-	words := strings.Fields(word)
-	for i := len(words) - 1; i >= 0 && i >= len(words)-count; i-- {
-		words[i] = strings.Title(strings.ToLower(words[i]))
+func TurnCapital(sentence string, count int) string {
+	words := strings.Fields(sentence)
+	if count >= len(words) {
+		for i := 0; i < len(words); i++ {
+			words[i] = strings.Title(strings.ToLower(words[i]))
+		}
+	} else {
+		for i := len(words) -1 ; i > count; i-- {
+			words[i] = strings.Title(strings.ToLower(words[i]))
+		}
 	}
 	return strings.Join(words, " ")
 }
 
-func TurnUpper(word string, count int) string {
-	words := strings.Fields(word)
-	for i := len(words) - 1; i >= 0 && i >= len(words)-count; i-- {
-		words[i] = strings.ToUpper(words[i])
+func TurnUpper(sentence string, count int) string {
+	words := strings.Fields(sentence)
+	if count >= len(words) {
+		for i := 0; i < len(words); i++ {
+			words[i] = strings.ToUpper(words[i])
+		}
+	} else {
+		for i := len(words) - 1; i >= 0; i-- {
+			words[i] = strings.ToUpper(words[i])
+		}
 	}
 	return strings.Join(words, " ")
 }
 
-func TurnLower(word string, count int) string {
-	words := strings.Fields(word)
-	for i := len(words) - 1; i >= 0 && i >= len(words)-count; i-- {
-		words[i] = strings.ToLower(words[i])
+func TurnLower(sentence string, count int) string {
+	words := strings.Fields(sentence)
+	if count >= len(words) {
+		for i := 0; i < len(words); i++ {
+			words[i] = strings.ToLower(words[i])
+		}
+	} else {
+		for i := len(words) - 1; i >= 0; i-- {
+			words[i] = strings.ToLower(words[i])
+		}
 	}
 	return strings.Join(words, " ")
 }
 
-func IsUp(match string) bool {
-	re2 := re.MustCompile(`(?i)\(\s*up\s*(?:,\s*(\d+)\s*)?\)`)
-	return re2.MatchString(match)
+func IsUp(command string) bool {
+	re2 := re.MustCompile(`(?i)up`)
+	return re2.MatchString(command)
 }
 
-func IsCap(match string) bool {
-	re2 := re.MustCompile(`(?i)\(\s*cap\s*(?:,\s*(\d+)\s*)?\)`)
-	return re2.MatchString(match)
+func IsCap(command string) bool {
+	re2 := re.MustCompile(`(?i)cap`)
+	return re2.MatchString(command)
 }
 
-func IsLow(match string) bool {
-	re2 := re.MustCompile(`(?i)\(\s*low\s*(?:,\s*(\d+)\s*)?\)`)
-	return re2.MatchString(match)
+func IsLow(command string) bool {
+	re2 := re.MustCompile(`(?i)low`)
+	return re2.MatchString(command)
 }
 
-func IsHex(match string) bool {
-	re2 := re.MustCompile(`(?i)\(\s*hex\s*(?:,\s*(\d+)\s*)?\)`)
-	return re2.MatchString(match)
+func IsHex(command string) bool {
+	re2 := re.MustCompile(`(?i)lhex`)
+	return re2.MatchString(command)
 }
 
-func IsBin(match string) bool {
-	re2 := re.MustCompile(`(?i)\(\s*bin\s*(?:,\s*(\d+)\s*)?\)`)
-	return re2.MatchString(match)
+func IsBin(command string) bool {
+	re2 := re.MustCompile(`(?i)bin`)
+	return re2.MatchString(command)
 }
