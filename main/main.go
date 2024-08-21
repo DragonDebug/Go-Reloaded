@@ -27,7 +27,7 @@ func main() {
 	}
 
 	// Opening the output file
-	file, err := os.OpenFile(output, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	file, err := os.OpenFile("output.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		fmt.Printf("Error opening file '%s': %s\n", output, err)
 		return
@@ -71,7 +71,11 @@ func main() {
 
 		// Replace the content with the modified word
 		newContent = strings.Replace(newContent, match[0], replacement, 1)
+
 	}
+
+	// Cleaning the spaces before the special characters and points
+	newContent = fn.CleanSpecial(newContent)
 
 	// Writing the new content into the output file
 	_, err = file.WriteString(newContent)

@@ -8,6 +8,26 @@ import (
 	"strings"
 )
 
+func CleanSpecial(content string) string {
+	newContent := content
+	// first loop for removing the spaces before the special character
+	re1 := re.MustCompile(`\s+([.,;:!?]+)`)
+	matches := re1.FindAllStringSubmatch(content, -1)
+	for _, match := range matches {
+		newContent = strings.Replace(newContent, match[0], match[1], 1)
+	}
+
+	// second loop for adding the spaces after the special characters
+	re2 := re.MustCompile(`(\w+[.,;:!?]+)`)
+	matches = re2.FindAllStringSubmatch(newContent, -1)
+	for _, match := range matches {
+		newContent = strings.Replace(newContent, match[0], match[1]+" ", -1)
+	}
+	return newContent
+}
+
+
+
 // Converts the string to an int
 func StringToInt(s string) int {
 	value, err := strconv.Atoi(s)
@@ -40,7 +60,7 @@ func TurnCapital(sentence string, count int) string {
 			words[i] = strings.Title(strings.ToLower(words[i]))
 		}
 	} else {
-		for i := len(words) -1 ; i > count; i-- {
+		for i := len(words) - 1; i > count; i-- {
 			words[i] = strings.Title(strings.ToLower(words[i]))
 		}
 	}
