@@ -9,24 +9,25 @@ import (
 )
 
 func CleanSpecial(content string) string {
-	newContent := content
 	// first loop for removing the spaces before the special character
 	re1 := re.MustCompile(`\s+([.,;:!?]+)`)
 	matches := re1.FindAllStringSubmatch(content, -1)
 	for _, match := range matches {
-		newContent = strings.Replace(newContent, match[0], match[1], 1)
+		content = strings.Replace(content, match[0], match[1], 1)
 	}
 
 	// second loop for adding the spaces after the special characters
 	re2 := re.MustCompile(`(\w+[.,;:!?]+)`)
-	matches = re2.FindAllStringSubmatch(newContent, -1)
+	matches = re2.FindAllStringSubmatch(content, -1)
 	for _, match := range matches {
-		newContent = strings.Replace(newContent, match[0], match[1]+" ", -1)
+		content = strings.Replace(content, match[0], match[1]+" ", -1)
 	}
-	return newContent
+	return content
 }
 
-
+func FixQuotations(content string) string {
+	re1:= re.MustCompile()
+}
 
 // Converts the string to an int
 func StringToInt(s string) int {
