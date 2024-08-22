@@ -27,7 +27,7 @@ func main() {
 	}
 
 	// Opening the output file
-	file, err := os.OpenFile("output.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	file, err := os.OpenFile("outputfile.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		fmt.Printf("Error opening file '%s': %s\n", output, err)
 		return
@@ -77,6 +77,9 @@ func main() {
 	// Cleaning the spaces before the special characters and points
 	newContent = fn.CleanSpecial(newContent)
 
+	// Fixing the quotation spaces
+	newContent = fn.FixQuotationSpaces(newContent)
+
 	// Writing the new content into the output file
 	_, err = file.WriteString(newContent)
 	if err != nil {
@@ -84,24 +87,3 @@ func main() {
 		return
 	}
 }
-
-// words := strings.Fields(part)
-// fmt.Print(words)
-
-// Writing the new content into the output file
-// _, err = file.WriteString(newContentComb)
-// if err != nil {
-// 	fmt.Printf("Error writing to file %s: %s\n", output, err)
-// 	return
-// }
-
-// for i := 0; i < len(contentSli); i++ {
-// 	if contentSli[i] == "(cap)" {
-// 		fmt.Println(strings.ToUpper(contentSli[i-1]))
-// 		_, err := file.WriteString(strings.ToUpper(contentSli[i-1]))
-// 		if err != nil {
-// 			fmt.Printf("Error writing to file %s: %s\n", output, err)
-// 			return
-// 		}
-// 	}
-// }

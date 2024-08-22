@@ -25,8 +25,33 @@ func CleanSpecial(content string) string {
 	return content
 }
 
-func FixQuotations(content string) string {
-	re1:= re.MustCompile()
+func FixQuotationSpaces(content string) string {
+	// Pattern to handle single quotes
+	reSingle := re.MustCompile(`'\s*([^']*?)\s*'`)
+	// Pattern to handle double quotes
+	reDouble := re.MustCompile(`"\s*([^"]*?)\s*"`)
+
+	// Process single quotes
+	fixedText := reSingle.ReplaceAllStringFunc(content, func(match string) string {
+		submatches := reSingle.FindStringSubmatch(match)
+		if len(submatches) >= 2 {
+			// Trim spaces inside single quotes
+			return fmt.Sprintf(`'%s'`, submatches[1])
+		}
+		return match // Return original if not matched correctly
+	})
+
+	// Process double quotes
+	fixedText = reDouble.ReplaceAllStringFunc(fixedText, func(match string) string {
+		submatches := reDouble.FindStringSubmatch(match)
+		if len(submatches) >= 2 {
+			// Trim spaces inside double quotes
+			return fmt.Sprintf(`"%s"`, submatches[1])
+		}
+		return match // Return original if not matched correctly
+	})
+
+	return fixedText
 }
 
 // Converts the string to an int
@@ -38,20 +63,28 @@ func StringToInt(s string) int {
 	return value
 }
 
-func TurnBinToDec(contentSli string) string {
-	decValueInt, err := strconv.ParseInt(contentSli, 2, 64)
+func TurnBinToDec(sentence string) string {
+	words := strings.Fields(sentence)
+	binNumStr := words[len(words)-1]
+	decValueInt, err := strconv.ParseInt(binNumStr, 2, 64)
 	if err != nil {
 		log.Fatal("Error Converting from binary to decimal")
 	}
-	return fmt.Sprint(int(decValueInt))
+	newContent := strings.Join(words[:len(words)-1], " ")
+	decValueStr := fmt.Sprint(int(decValueInt))
+	return newContent + " " + decValueStr
 }
 
-func TurnHexToDec(contentSli string) string {
-	decValueInt, err := strconv.ParseInt(contentSli, 16, 64)
+func TurnHexToDec(sentence string) string {
+	words := strings.Fields(sentence)
+	HexNumStr := words[len(words)-1]
+	decValueInt, err := strconv.ParseInt(HexNumStr, 16, 64)
 	if err != nil {
 		log.Fatal("Error Converting from hex to decimal")
 	}
-	return fmt.Sprint(int(decValueInt))
+	newContent := strings.Join(words[:len(words)-1], " ")
+	decValueStr := fmt.Sprint(int(decValueInt))
+	return newContent + " " + decValueStr
 }
 
 func TurnCapital(sentence string, count int) string {
@@ -61,8 +94,9 @@ func TurnCapital(sentence string, count int) string {
 			words[i] = strings.Title(strings.ToLower(words[i]))
 		}
 	} else {
-		for i := len(words) - 1; i > count; i-- {
+		for i := len(words) - 1; count > 0; i-- {
 			words[i] = strings.Title(strings.ToLower(words[i]))
+			count--
 		}
 	}
 	return strings.Join(words, " ")
@@ -75,8 +109,9 @@ func TurnUpper(sentence string, count int) string {
 			words[i] = strings.ToUpper(words[i])
 		}
 	} else {
-		for i := len(words) - 1; i >= 0; i-- {
+		for i := len(words) - 1; count > 0; i-- {
 			words[i] = strings.ToUpper(words[i])
+			count--
 		}
 	}
 	return strings.Join(words, " ")
@@ -89,8 +124,9 @@ func TurnLower(sentence string, count int) string {
 			words[i] = strings.ToLower(words[i])
 		}
 	} else {
-		for i := len(words) - 1; i >= 0; i-- {
+		for i := len(words) - 1; count > 0; i-- {
 			words[i] = strings.ToLower(words[i])
+			count--
 		}
 	}
 	return strings.Join(words, " ")
