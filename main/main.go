@@ -80,6 +80,9 @@ func main() {
 	// Fixing the quotation spaces
 	newContent = fn.FixQuotationSpaces(newContent)
 
+	// Fixing the grammer of a and an
+	newContent = fn.FixGrammar(newContent)
+
 	// Writing the new content into the output file
 	_, err = file.WriteString(newContent)
 	if err != nil {
