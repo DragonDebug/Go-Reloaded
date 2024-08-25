@@ -8,16 +8,30 @@ import (
 	"strings"
 )
 
+func ClearSpaces(content string) string {
+	//compile regex
+	re1 := re.MustCompile(`(\s+)`)
+
+	fixedText := re1.ReplaceAllString(content, " ")
+
+	return fixedText
+}
+
 func FixGrammar(content string) string {
 	// Compile the regular expressions
-	re1 := re.MustCompile(`(?i)a(\s+[AEIOUH]\w+)`)
-	re2 := re.MustCompile(`(?i)an(\s+[^AEIOUH]\w+)`)
+	re1 := re.MustCompile(`(?i)(a)(\s+[AEIOUH]\w+)`)
+	re2 := re.MustCompile(`(?i)(an)(\s+[^AEIOUH]\w+)`)
 
-	/// Fixes the grammar with "a" being used incorrectly before a word
+	// Fixes the grammar with "a" being used incorrectly before a word
 	fixedText := re1.ReplaceAllStringFunc(content, func(match string) string {
 		submatches := re1.FindStringSubmatch(match)
-		if len(submatches) > 1 {
-			return fmt.Sprintf(`an%s`, submatches[1])
+		if len(submatches) > 2 {
+			switch submatches[1] {
+			case "a":
+				return fmt.Sprintf(`an%s`, submatches[2])
+			case "A":
+				return fmt.Sprintf(`AN%s`, submatches[2])
+			}
 		}
 		return match // Return original if not matched correctly
 	})
@@ -25,8 +39,15 @@ func FixGrammar(content string) string {
 	// Fixes the grammar with "an" being used incorrectly before a word
 	fixedText = re2.ReplaceAllStringFunc(fixedText, func(match string) string {
 		submatches := re2.FindStringSubmatch(match)
-		if len(submatches) > 1 {
-			return fmt.Sprintf(`a%s`, submatches[1])
+		if len(submatches) > 2 {
+			switch submatches[1] {
+			case "an":
+				return fmt.Sprintf(`a%s`, submatches[2])
+			case "AN":
+				return fmt.Sprintf(`A%s`, submatches[2])
+			case "An":
+				return fmt.Sprintf(`A%s`, submatches[2])
+			}
 		}
 		return match // Return original if not matched correctly
 	})
@@ -62,14 +83,14 @@ func CleanSpecial(content string) string {
 
 func FixQuotationSpaces(content string) string {
 	// Compile the regular expressions for both single and double quotation marks
-	reSingle := re.MustCompile(`'\s*([^']*?)\s*'`)
-	reDouble := re.MustCompile(`"\s*([^"]*?)\s*"`)
+	reSingle := re.MustCompile(`(?:\s*)'\s*([^']*?)\s*'(?:\s*)`)
+	reDouble := re.MustCompile(`(?:\s*)"\s*([^"]*?)\s*"(?:\s*)`)
 
 	// Process single quotes
 	fixedText := reSingle.ReplaceAllStringFunc(content, func(match string) string {
 		submatches := reSingle.FindStringSubmatch(match)
 		if len(submatches) >= 2 {
-			return fmt.Sprintf(`'%s'`, submatches[1])
+			return fmt.Sprintf(` '%s' `, submatches[1])
 		}
 		return match // Return original if not matched correctly
 	})
@@ -78,7 +99,7 @@ func FixQuotationSpaces(content string) string {
 	fixedText = reDouble.ReplaceAllStringFunc(fixedText, func(match string) string {
 		submatches := reDouble.FindStringSubmatch(match)
 		if len(submatches) >= 2 {
-			return fmt.Sprintf(`"%s"`, submatches[1])
+			return fmt.Sprintf(` "%s" `, submatches[1])
 		}
 		return match // Return original if not matched correctly
 	})

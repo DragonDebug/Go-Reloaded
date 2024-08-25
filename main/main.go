@@ -76,6 +76,9 @@ func main() {
 	// Fixing the grammer of a and an
 	newContent = fn.FixGrammar(newContent)
 
+	// Clearing extra spaces
+	newContent = fn.ClearSpaces(newContent)
+
 	// Writing the new content into the output file
 	_, err = file.WriteString(newContent)
 	if err != nil {
